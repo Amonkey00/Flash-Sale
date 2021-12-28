@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.flashsale.dao.UserMapper">
+
+    <select id="getUserById" resultType="user">
+        SELECT u_id, u_name, phone, email, wallet
+        FROM flash_sale.Users
+        WHERE u_id = #{userId};
+    </select>
+
+    <select id="getUserByName" resultType="user">
+        SELECT u_id, u_name, phone, email, wallet
+        FROM flash_sale.Users
+        WHERE u_name = #{userName};
+    </select>
+
+    <select id="getUserByPhone" resultType="user">
+        SELECT u_id, u_name, phone, email, wallet
+        FROM flash_sale.Users
+        WHERE phone = #{userPhone};
+    </select>
+
+    <select id="getUser" resultType="user">
+        SELECT u_id, u_name, phone, email, wallet
+        FROM flash_sale.Users
+        WHERE u_name = #{userName} AND phone = #{userPhone};
+    </select>
+
+    <select id="countUser" resultType="_int">
+        SELECT COUNT(1)
+        FROM flash_sale.Users
+    </select>
+
+    <insert id="addUser" parameterType="user">
+        INSERT INTO flash_sale.Users(u_name, phone, email, wallet)
+        VALUES (#{u_name}, #{phone}, #{email}, #{wallet});
+    </insert>
+
+    <update id="updateUser" parameterType="user">
+        UPDATE flash_sale.Users
+        SET u_name = #{u_name},
+            phone = #{phone},
+            email = #{email},
+            wallet = #{wallet}
+        WHERE u_id = #{u_id};
+    </update>
+
+
+
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.flashsale.dao.ProductMapper">
+
+    <select id="getProductById" resultType="product">
+        SELECT p_id, p_name, image, introduction, price, stock_count, flag, start_time, end_time
+        FROM flash_sale.Products
+        WHERE p_id = #{productId}
+    </select>
+
+    <select id="getProductList" resultType="user">
+        SELECT u_id, u_name, phone, email, wallet
+        FROM flash_sale.Users
+    </select>
+
+    <select id="getProductListWithPage" parameterType="page" resultType="product">
+        SELECT p_id, p_name, image, introduction, price, stock_count, flag, start_time, end_time
+        FROM flash_sale.Products
+        LIMIT #{start}, #{count}
+    </select>
+
+    <select id="countProduct" resultType="_int">
+        SELECT COUNT(1)
+        FROM flash_sale.Products
+    </select>
+
+    <select id="getPriceById" resultType="double">
+        SELECT price
+        FROM flash_sale.Products
+        WHERE p_id = #{productId};
+    </select>
+
+    <select id="getFlagById" resultType="boolean">
+        SELECT flag
+        FROM flash_sale.Products
+        WHERE p_id = #{productId};
+    </select>
+
+    <insert id="addProduct" parameterType="product">
+        INSERT INTO flash_sale.Products(p_name, image, introduction, price, stock_count, flag, start_time, end_time)
+        VALUES (#{p_name}, #{image}, #{introduction}, #{price}, #{stock_count}, #{flag}, #{start_time}, #{end_time});
+    </insert>
+
+    <update id="updateProduct" parameterType="product">
+        UPDATE flash_sale.Products
+        SET p_name = #{p_name},
+            image = #{image},
+            introduction = #{introduction},
+            price = #{price},
+            stock_count = #{stock_count},
+            flag = #{flag},
+            start_time = #{start_time},
+            end_time = #{end_time}
+        WHERE p_id = #{p_id}
+    </update>
+
+
+
+</mapper>

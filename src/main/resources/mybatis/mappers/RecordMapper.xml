@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.flashsale.dao.RecordMapper">
+
+    <select id="getRecordById" resultType="record">
+        SELECT r_id, o_id, u_id, p_id, create_time, total
+        FROM flash_sale.Records
+        WHERE r_id = #{recordId};
+    </select>
+
+    <select id="getRecordByOrderId" resultType="record">
+        SELECT r_id, o_id, u_id, p_id, create_time, total
+        FROM flash_sale.Records
+        WHERE o_id = #{orderId};
+    </select>
+
+    <select id="getRecordList" resultType="record">
+        SELECT r_id, o_id, u_id, p_id, create_time, total
+        FROM flash_sale.Records;
+    </select>
+
+    <select id="getRecordListWithPage" parameterType="page" resultType="record">
+        SELECT r_id, o_id, u_id, p_id, create_time, total
+        FROM flash_sale.Records
+        LIMIT #{start}, #{count};
+    </select>
+
+    <select id="getRecordListByUserId" resultType="record">
+        SELECT r_id, o_id, u_id, p_id, create_time, total
+        FROM flash_sale.Records
+        WHERE u_id = #{userId};
+    </select>
+
+    <select id="getRecordListByProductId" resultType="record">
+        SELECT r_id, o_id, u_id, p_id, create_time, total
+        FROM flash_sale.Records
+        WHERE p_id = #{productId};
+    </select>
+
+    <select id="countRecord" resultType="_int">
+        SELECT COUNT(1)
+        FROM flash_sale.Records;
+    </select>
+
+    <select id="countRecordByUserId" resultType="_int">
+        SELECT COUNT(1)
+        FROM flash_sale.Records
+        WHERE u_id = #{userId};
+    </select>
+
+    <select id="countRecordByProductId" resultType="_int">
+        SELECT COUNT(1)
+        FROM flash_sale.Records
+        WHERE p_id = #{productId};
+    </select>
+
+    <insert id="addRecord" parameterType="record">
+        INSERT INTO flash_sale.Records(o_id, u_id, p_id, create_time, total)
+        VALUES (#{o_id}, #{u_id}, #{p_id}, #{create_time}, #{total});
+    </insert>
+
+    <update id="updateOrder" parameterType="order">
+        UPDATE flash_sale.Orders
+        SET status = #{status},
+            number = #{number}
+        WHERE o_id = #{o_id};
+    </update>
+
+
+</mapper>

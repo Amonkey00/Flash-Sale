@@ -1,4 +1,17 @@
-#Redis
+# SpringBoot & Datasource Configuration
+spring:
+  datasource:
+    username: out_root
+    password: root
+    url: jdbc:mysql://139.196.122.68:3306/flash_sale?serverTimezone=GMT&useUnicode=true&characterEncoding=utf-8&useSSL=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# Mybatis Configuration
+mybatis:
+  type-aliases-package: com.example.flashsale.pojo
+  mapper-locations: classpath:mybatis/mappers/*.xml
+
+# Redis Configuration
 redis:
   host: 139.196.122.68
   port: 6379

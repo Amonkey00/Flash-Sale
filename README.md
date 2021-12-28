@@ -36,7 +36,11 @@ A personal flash-sale project for practice
 
 ## 2.1 数据库设计
 
-**用户表 User**
+![ER图](ER图.png)
+
+
+
+**用户表 Users**
 
 |   名称   | 字段名 |       类型        |                   描述                   |
 | :------: | :----: | :---------------: | :--------------------------------------: |
@@ -44,9 +48,9 @@ A personal flash-sale project for practice
 |  用户名  | u_name |    Varchar(40)    |       用户的唯一昵称，可以自主设定       |
 | 手机号码 | phone  |    Varchar(20)    |                用户手机号                |
 |   邮箱   | email  |    Varchar(48)    |                 用户邮箱                 |
-| 账户余额 | wallet |   Demical(12,2)   | 用户的剩余钱数(<=1e10)，精度保留两位小数 |
+| 账户余额 | wallet |   Decimal(12,2)   | 用户的剩余钱数(<=1e10)，精度保留两位小数 |
 
-**商品表Product**
+**商品表Products**
 
 |   名称   |    字段名    |       类型        |          描述          |
 | :------: | :----------: | :---------------: | :--------------------: |
@@ -54,13 +58,13 @@ A personal flash-sale project for practice
 | 商品名称 |    p_name    |    Varchar(40)    |     商品的显示名称     |
 | 商品图片 |    image     |   Varchar(128)    |     商品的图片url      |
 | 商品简介 | introduction |   Varchar(128)    |     商品相关的介绍     |
-|   价格   |    price     |   Demical(12,2)   |        商品单价        |
+|   价格   |    price     |  Decimal(12,2)j   |        商品单价        |
 |   库存   | stock_count  |        INT        |     商品库存剩余量     |
 | 秒杀标签 |     flag     |      Boolean      |  该商品是否为秒杀商品  |
 | 开始时间 |  start_time  |       Date        |  商品抢购预设开始时间  |
 | 结束时间 |   end_time   |       Date        |  商品抢购预设结束时间  |
 
-**订单表Order**
+**订单表OrderLists**
 
 |   名称   |   字段名    |       类型        |                           描述                           |
 | :------: | :---------: | :---------------: | :------------------------------------------------------: |
@@ -69,14 +73,15 @@ A personal flash-sale project for practice
 |  商品ID  |    p_id     |      INT, FK      |                        商品的ID号                        |
 | 购买数量 |   number    |        INT        |                     当前订单购买数量                     |
 | 创建时间 | create_time |       Date        |                      订单创建的时间                      |
-| 订单状态 |   status    |    Varchar(2)     | 标明当前订单的状态：[AC订单完成\|WT等待支付\|FN订单取消] |
+| 订单状态 |   status    |    Varchar(2)     | 标明当前订单的状态：[AC订单完成\|WT等待支付\|FD订单取消] |
 
-**支付记录 Record**
+**支付记录 Records**
 
-|   名称   |   字段名    |  类型   |                       描述                       |
-| :------: | :---------: | :-----: | :----------------------------------------------: |
-|  记录ID  |    r_id     | INT, PK |                 支付记录的唯一ID                 |
-|  订单ID  |    o_id     | INT, FK |                   关联订单的ID                   |
-|  用户ID  |    u_id     | INT, FK | 买家用户ID，用于快速查询支付记录，以及退款操作。 |
-|  商品ID  |    p_id     | INT, FK |  支付商品ID, 用于后续统计支付成功后的数量，以及  |
-| 创建时间 | create_time |  Date   |        支付记录的创建时间，即成功支付时间        |
+|    名称    |   字段名    |     类型      |                       描述                       |
+| :--------: | :---------: | :-----------: | :----------------------------------------------: |
+|   记录ID   |    r_id     |    INT, PK    |                 支付记录的唯一ID                 |
+|   订单ID   |    o_id     |    INT, FK    |                   关联订单的ID                   |
+|   用户ID   |    u_id     |    INT, FK    | 买家用户ID，用于快速查询支付记录，以及退款操作。 |
+|   商品ID   |    p_id     |    INT, FK    |  支付商品ID, 用于后续统计支付成功后的数量，以及  |
+|  创建时间  | create_time |     Date      |        支付记录的创建时间，即成功支付时间        |
+| 订单总金额 |    total    | Decimal(12,2) |             当前订单所代表的总金额数             |
