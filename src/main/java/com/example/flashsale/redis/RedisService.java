@@ -40,7 +40,6 @@ public class RedisService {
     public <T> boolean set(KeyPrefix prefix, String key, T value){
         Jedis jedis = null;
         try{
-            System.out.println(jedisPool);
             jedis = jedisPool.getResource();
             String setStr = beanToString(value);
             if(setStr == null || setStr.length() <= 0){

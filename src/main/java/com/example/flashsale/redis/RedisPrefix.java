@@ -2,7 +2,7 @@ package com.example.flashsale.redis;
 
 public class RedisPrefix extends BasePrefix{
 
-    private RedisPrefix(String prefix, int expireSeconds){
+    public RedisPrefix(String prefix, int expireSeconds){
         super(prefix,expireSeconds);
     }
 
