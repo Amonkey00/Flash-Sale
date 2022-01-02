@@ -6,10 +6,7 @@ import com.example.flashsale.service.UserService;
 import com.example.flashsale.utils.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletRequest;
 import java.io.Serializable;
@@ -32,7 +29,6 @@ public class UserController{
         String email = request.getParameter("email");
         Double wallet = 0d;
         User user = new User(userName,phone,password,email,wallet);
-        System.out.println(user);
 
         // Check existing user
         boolean userNameCheck = userMapper.getUserByName(user.getUname()) == null;
@@ -50,29 +46,49 @@ public class UserController{
     }
 
     @PostMapping("/login")
-    public String login (ServletRequest request){
+    public JsonResult login (ServletRequest request){
         String userName = request.getParameter("userName");
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
 
         int status = 0;
-        if(!userName.isEmpty()){
+        if(null != userName){
             status = userService.loginWithName(userName, password);
         }
-        if(!phone.isEmpty() && status <= 0){
+        if(null != phone && status <= 0){
             status = userService.loginWithPhone(phone, password);
         }
-        if(status > 0) return "Success";
-        return "Failed";
+        if(status > 0) return new JsonResult();
+        return new JsonResult(1, "Operation failed. " +
+                "Username/phone not found or password is wrong.");
     }
 
-    @RequestMapping("/getUser")
-    public String getUserInfo(int statusCode, String param){
+    @GetMapping("/getUser")
+    public JsonResult getUserInfo(int statusCode, String param){
         // StatusCode represents the param's type
         // 1: userID, 2: userName, 3: userPhone
         User user = userService.getUser(statusCode, param);
-        if(user == null) return "Failed";
-        return user.toString();
+        if(user == null) return new JsonResult(1, "No user matched.");
+        return new JsonResult<User>(user, "Operation succeed.",0);
+    }
+
+    @PostMapping("/editUser")
+    public JsonResult editUserInfo(ServletRequest request){
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        String userName = request.getParameter("userName");
+        String email = request.getParameter("email");
+
+        User user = userMapper.getUserById(userId);
+        if(user == null){
+            return new JsonResult(1, "User not exists. Please contact manager.");
+        }
+        if(null != userName)user.setUname(userName);
+        if(null != email)user.setEmail(email);
+        int status = userMapper.updateUser(user);
+        if(status > 0){
+            return new JsonResult();
+        }
+        return new JsonResult(1, "Update error.");
     }
 
     @Override

@@ -10,6 +10,12 @@
         WHERE p_id = #{productId}
     </select>
 
+    <select id="getProductByName" resultType="product">
+        SELECT p_id, p_name, image, introduction, price, stock_count, flag, start_time, end_time
+        FROM flash_sale.Products
+        WHERE p_name = #{productName}
+    </select>
+
     <select id="getProductList" resultType="user">
         SELECT u_id, u_name, phone, email, wallet
         FROM flash_sale.Users
@@ -21,10 +27,17 @@
         LIMIT #{start}, #{count}
     </select>
 
+    <select id="searchByWord" resultType="product">
+        SELECT *
+        FROM flash_sale.Products
+        WHERE p_name LIKE CONCAT('%', #{Keyword}, '%')
+    </select>
+
     <select id="countProduct" resultType="_int">
         SELECT COUNT(1)
         FROM flash_sale.Products
     </select>
+
 
     <select id="getPriceById" resultType="double">
         SELECT price
@@ -53,7 +66,7 @@
             flag = #{flag},
             start_time = #{start_time},
             end_time = #{end_time}
-        WHERE p_id = #{p_id}
+        WHERE p_id = #{p_id} AND stock_count >= 0
     </update>
 
 

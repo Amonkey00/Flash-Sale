@@ -14,8 +14,10 @@ public interface ProductMapper {
 
     // GET
     public Product getProductById(@Param("productId") int id);
+    public Product getProductByName(@Param("productName") String name);
     public List<Product> getProductList();
     public List<Product> getProductListWithPage(Page page);
+    public List<Product> searchByWord(@Param("Keyword") String word);
     public int countProduct();
 
     // GET INFO

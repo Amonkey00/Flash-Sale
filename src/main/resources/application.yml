@@ -22,3 +22,7 @@ redis:
   poolMaxTotal: 1000
   poolMaxIdle: 500
   poolMaxWait: 500
+
+# Image Path Configuration
+path:
+  default-image-path: \src\main\resources\images

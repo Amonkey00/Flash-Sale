@@ -4,10 +4,10 @@ import com.example.flashsale.dao.UserMapper;
 import com.example.flashsale.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 @Service
 public class UserService {
@@ -40,7 +40,7 @@ public class UserService {
         if(user == null){
             return -1;
         }
-        return user.getPassword() == password ? 1 : -1;
+        return user.getPassword().equals(password) ? 1 : -1;
     }
 
     public int loginWithPhone(String phone, String password){
@@ -48,7 +48,22 @@ public class UserService {
         if(user == null){
             return -1;
         }
-        return user.getPassword() == password ? 1 : -1;
+        return user.getPassword().equals(password) ? 1 : -1;
+    }
+
+    /**
+     * Modify the wallet of user.
+     * @param userId The user be modified
+     * @param money The number of money [+:add money, -: decline money]
+     * @return result
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public int modifyWallet(int userId, Double money){
+        User user = userMapper.getUserById(userId);
+        Double expectWallet = user.getWallet() + money;
+        if(expectWallet < 0) return -1;
+        user.setWallet(expectWallet);
+        return userMapper.updateUser(user);
     }
 
     /**
@@ -59,11 +74,11 @@ public class UserService {
     public User getUser(int statusCode, String param){
         User user = null;
         switch (statusCode){
-            case 1: userMapper.getUserById(Integer.valueOf(param));
+            case 1: user = userMapper.getUserById(Integer.valueOf(param));
                 break;
-            case 2: userMapper.getUserByName(param);
+            case 2: user = userMapper.getUserByName(param);
                 break;
-            case 3: userMapper.getUserByPhone(param);
+            case 3: user = userMapper.getUserByPhone(param);
                 break;
         }
         return user;

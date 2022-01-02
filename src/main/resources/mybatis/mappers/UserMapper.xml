@@ -5,25 +5,25 @@
 <mapper namespace="com.example.flashsale.dao.UserMapper">
 
     <select id="getUserById" resultType="user">
-        SELECT u_id, u_name, phone, email, wallet
+        SELECT u_id, u_name, phone, email, wallet, password
         FROM flash_sale.Users
         WHERE u_id = #{userId};
     </select>
 
     <select id="getUserByName" resultType="user">
-        SELECT u_id, u_name, phone, email, wallet
+        SELECT u_id, u_name, phone, email, wallet, password
         FROM flash_sale.Users
         WHERE u_name = #{userName};
     </select>
 
     <select id="getUserByPhone" resultType="user">
-        SELECT u_id, u_name, phone, email, wallet
+        SELECT u_id, u_name, phone, email, wallet, password
         FROM flash_sale.Users
         WHERE phone = #{userPhone};
     </select>
 
     <select id="getUser" resultType="user">
-        SELECT u_id, u_name, phone, email, wallet
+        SELECT u_id, u_name, phone, email, wallet, password
         FROM flash_sale.Users
         WHERE u_name = #{userName} AND phone = #{userPhone};
     </select>
@@ -43,7 +43,8 @@
         SET u_name = #{u_name},
             phone = #{phone},
             email = #{email},
-            wallet = #{wallet}
+            wallet = #{wallet},
+            password = #{password}
         WHERE u_id = #{u_id};
     </update>
 
