@@ -7,6 +7,14 @@ public class RedisPrefix extends BasePrefix{
     }
 
     //User related Prefix
-    public static RedisPrefix USERKEY_ID = new RedisPrefix("userId",60);
-    public static RedisPrefix USERKEY_INFO = new RedisPrefix("userInfo",0);
+    public static final RedisPrefix USERKEY = new RedisPrefix("userInfo",60);
+
+    //Order related Prefix
+    public static final RedisPrefix ORDERKEY = new RedisPrefix("orderInfo",60);
+
+    //Product related Prefix
+    public static final RedisPrefix PRODUCTKEY = new RedisPrefix("productInfo",60);
+
+    //Record related Prefix
+    public static final RedisPrefix RECORDKEY = new RedisPrefix("recordInfo",60);
 }

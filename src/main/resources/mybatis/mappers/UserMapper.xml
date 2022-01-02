@@ -34,8 +34,8 @@
     </select>
 
     <insert id="addUser" parameterType="user">
-        INSERT INTO flash_sale.Users(u_name, phone, email, wallet)
-        VALUES (#{u_name}, #{phone}, #{email}, #{wallet});
+        INSERT INTO flash_sale.Users(u_name, phone, email, wallet, password)
+        VALUES (#{u_name}, #{phone}, #{email}, #{wallet}, #{password});
     </insert>
 
     <update id="updateUser" parameterType="user">

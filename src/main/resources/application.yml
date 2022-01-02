@@ -1,5 +1,7 @@
 # SpringBoot & Datasource Configuration
 spring:
+  jmx:
+    enabled: false
   datasource:
     username: out_root
     password: root

@@ -9,7 +9,6 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
 
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +28,7 @@ public class RedisService {
             // Generate Real Key = prefix + key_name
             String realKey = prefix.getPrefix() + key;
             String resStr = jedis.get(realKey);
-            T t = null;
-            //T t = stringToBean(resStr, clazz);
+            T t = stringToBean(resStr, clazz);
             return t;
         }finally {
             returnToPool(jedis);
