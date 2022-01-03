@@ -4,7 +4,7 @@ import com.example.flashsale.pojo.Page;
 import com.example.flashsale.pojo.Product;
 import com.example.flashsale.service.ProductService;
 import com.example.flashsale.utils.JsonResult;
-import com.example.flashsale.utils.ProductPageContent;
+import com.example.flashsale.utils.PageContent;
 import com.example.flashsale.utils.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/product")
@@ -37,7 +38,7 @@ public class ProductController {
         String countStr = request.getParameter("count");
 
         // Check the page information
-        ProductPageContent content = null;
+        PageContent<Product> content = null;
         if(startStr != null && countStr != null){
             int start = Integer.parseInt(startStr);
             int count = Integer.parseInt(countStr);
@@ -45,11 +46,11 @@ public class ProductController {
             Page page = new Page(computeStart, count);
             page.setTotal(productService.countProduct());
             List<Product> productList = productService.getProductList(page);
-            content = new ProductPageContent(productList, page);
+            content = new PageContent<>(productList, page);
         }
         else{
             List<Product> productList = productService.getProductList();
-            content = new ProductPageContent(productList);
+            content = new PageContent<>(productList);
         }
         return new JsonResult<>(content, "List of products", 0);
     }
@@ -195,6 +196,43 @@ public class ProductController {
             e.printStackTrace();
             return new JsonResult(1, "Transaction failed");
         }
+        return new JsonResult(1, "Operation failed");
+    }
+
+    @PostMapping("/update")
+    public JsonResult update(ServletRequest request){
+        // Data initialization
+        Integer productId = Integer.parseInt(request.getParameter("productId"));
+        String productName = request.getParameter("productName");
+        String introduction = request.getParameter("introduction");
+        Double price = Double.parseDouble(request.getParameter("price"));
+        Boolean flag = request.getParameter("flag").equals("true");
+        Long startTime = Long.parseLong(request.getParameter("startTime"));
+        Long endTime = Long.parseLong(request.getParameter("endTime"));
+        // Get product from database
+        Product product = productService.getProduct(productId);
+        if(product == null){
+            return new JsonResult(1, "No such product");
+        }
+
+        // Check
+        if(!productName.equals(product.getPname()) && productService.getProduct(productName) != null){
+            return new JsonResult(1, "New Product Name exists");
+        }
+        if(price < 0){
+            return new JsonResult(1, "Price must >= 0");
+        }
+
+        // Set New information
+        product.setPname(productName);
+        product.setIntroduction(introduction);
+        product.setPrice(price);
+        product.setFlag(flag);
+        product.setStartTime(new Date(startTime));
+        product.setEndTime(new Date(endTime));
+        // Execute
+        int status = productService.updateProduct(product);
+        if(status > 0) return new JsonResult();
         return new JsonResult(1, "Operation failed");
     }
 

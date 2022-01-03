@@ -25,9 +25,8 @@ public class Order {
         this.create_time = new Date();
     }
 
-    public Order(int o_id, int u_id, int p_id,
+    public Order(int u_id, int p_id,
                  int number, String status) {
-        this.o_id = o_id;
         this.u_id = u_id;
         this.p_id = p_id;
         this.number = number;

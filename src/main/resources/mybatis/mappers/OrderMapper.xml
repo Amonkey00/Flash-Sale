@@ -24,13 +24,19 @@
     <select id="getOrderListByProductId" resultType="order">
         SELECT o_id, u_id, p_id, number, create_time, status
         FROM flash_sale.Orders
-        WHERE p_id = #{productId};
+        WHERE p_id = #{productId}
+        <if test="filter != null">
+            AND status = #{filter}
+        </if>
     </select>
 
     <select id="getOrderListByUserId" resultType="order">
         SELECT o_id, u_id, p_id, number, create_time, status
         FROM flash_sale.Orders
-        WHERE u_id = #{userId};
+        WHERE u_id = #{userId}
+        <if test="filter != null">
+            AND status = #{filter}
+        </if>
     </select>
 
     <select id="countOrder" resultType="_int">
@@ -42,12 +48,18 @@
         SELECT COUNT(1)
         FROM flash_sale.Orders
         WHERE p_id = #{productId};
+        <if test="filter != null">
+            AND status = #{filter}
+        </if>
     </select>
 
     <select id="countOrderByUserId" resultType="_int">
         SELECT COUNT(1)
         FROM flash_sale.Orders
         WHERE u_id = #{userId};
+        <if test="filter != null">
+            AND status = #{filter}
+        </if>
     </select>
 
     <insert id="addOrder" parameterType="order">

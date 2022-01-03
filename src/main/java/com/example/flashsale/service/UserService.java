@@ -12,6 +12,10 @@ import java.util.Date;
 @Service
 public class UserService {
 
+    public static final int IDKEY = 1;
+    public static final int NAMEKEY = 2;
+    public static final int PHONEKEY = 3;
+
     @Autowired
     UserMapper userMapper;
 
@@ -74,11 +78,11 @@ public class UserService {
     public User getUser(int statusCode, String param){
         User user = null;
         switch (statusCode){
-            case 1: user = userMapper.getUserById(Integer.valueOf(param));
+            case IDKEY: user = userMapper.getUserById(Integer.valueOf(param));
                 break;
-            case 2: user = userMapper.getUserByName(param);
+            case NAMEKEY: user = userMapper.getUserByName(param);
                 break;
-            case 3: user = userMapper.getUserByPhone(param);
+            case PHONEKEY: user = userMapper.getUserByPhone(param);
                 break;
         }
         return user;

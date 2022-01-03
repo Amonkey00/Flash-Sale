@@ -16,11 +16,11 @@ public interface OrderMapper {
     public Order getOrderById(@Param("orderId")int id);
     public List<Order> getOrderList();
     public List<Order> getOrderListWithPage(Page page);
-    public List<Order> getOrderListByProductId(@Param("productId")int id);
-    public List<Order> getOrderListByUserId(@Param("userId")int id);
+    public List<Order> getOrderListByProductId(@Param("productId")int id, @Param("filter") String filter);
+    public List<Order> getOrderListByUserId(@Param("userId")int id, @Param("filter") String filter);
     public int countOrder();
-    public int countOrderByProductId(@Param("productId")int id);
-    public int countOrderByUserId(@Param("userId")int id);
+    public int countOrderByProductId(@Param("productId")int id, @Param("filter") String filter);
+    public int countOrderByUserId(@Param("userId")int id, @Param("filter") String filter);
 
     // INSERT
     public int addOrder(Order order);

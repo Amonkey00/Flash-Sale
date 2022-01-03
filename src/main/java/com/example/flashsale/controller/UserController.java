@@ -91,6 +91,27 @@ public class UserController{
         return new JsonResult(1, "Update error.");
     }
 
+    @PostMapping("/charge")
+    public JsonResult chargeWallet(ServletRequest request){
+        String userIdStr = request.getParameter("userId");
+        Double chargeNumber = Double.parseDouble(request.getParameter("number"));
+
+        // Check user and chargeNumber
+        User user = userService.getUser(UserService.IDKEY, userIdStr);
+        if(user == null) return new JsonResult(1, "No such user");
+        if(chargeNumber <= 0) return new JsonResult(1, "number must > 0");
+
+        // Start Transactional service
+        try{
+            Integer userId = Integer.parseInt(userIdStr);
+            int status = userService.modifyWallet(userId, chargeNumber);
+            if(status > 0) return new JsonResult();
+        }catch (Exception e){
+            return new JsonResult(1, "Transactional Operation failed");
+        }
+        return new JsonResult(1, "Operation failed");
+    }
+
     @Override
     public String toString() {
         return "UserController{" +

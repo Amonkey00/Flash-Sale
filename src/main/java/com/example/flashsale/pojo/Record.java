@@ -15,8 +15,7 @@ public class Record {
         this.create_time = new Date();
     }
 
-    public Record(int r_id, int o_id, int u_id, int p_id, Double total) {
-        this.r_id = r_id;
+    public Record(int o_id, int u_id, int p_id, Double total) {
         this.o_id = o_id;
         this.u_id = u_id;
         this.p_id = p_id;

@@ -84,8 +84,8 @@ class FlashSaleApplicationTests {
         order.setStatus(Order.ACCEPTED);
         orderMapper.updateOrder(order);
         System.out.println(orderMapper.getOrderById(1));
-        System.out.println(orderMapper.getOrderListByUserId(1));
-        System.out.println(orderMapper.getOrderListByProductId(1));
+        //System.out.println(orderMapper.getOrderListByUserId(1));
+        //System.out.println(orderMapper.getOrderListByProductId(1));
     }
 
     @Test
